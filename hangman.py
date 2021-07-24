@@ -1,14 +1,3 @@
-# Problem Set 2, hangman.py
-# Name: 
-# Collaborators:
-# Time spent:
-
-# Hangman Game
-# -----------------------------------
-# Helper code
-# You don't need to understand this helper code,
-# but you will have to know how to use the functions
-# (so be sure to read the docstrings!)
 import random
 import string
 
@@ -50,7 +39,6 @@ def choose_word(wordlist):
 # so that it can be accessed from anywhere in the program
 wordlist = load_words()
 
-
 def is_word_guessed(secret_word, letters_guessed):
     '''
     secret_word: string, the word the user is guessing; assumes all letters are
@@ -61,7 +49,7 @@ def is_word_guessed(secret_word, letters_guessed):
       False otherwise
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    return False
 
 
 
@@ -84,7 +72,16 @@ def get_available_letters(letters_guessed):
       yet been guessed.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    abc = " a b c d e f g h i j k l m n o p g r s t u v w x y z "
+    temp = abc
+    for i in letters_guessed:
+      for j in abc:
+        if j == i:
+          if not temp.find(j) == -1:
+           temps = temp[0:temp.find(j)] + temp[temp.find(j)+1:]
+           temp = temps
+    return temp
+
     
     
 
@@ -114,8 +111,37 @@ def hangman(secret_word):
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
-
+    guesses = 6
+    my_word = ""
+    guessed = ""
+    temp=" "
+    bol = False
+    for i in secret_word:
+      my_word += "_ "
+    while guesses > 0:
+        bol = True
+        print("\n\n You have ",guesses," guesses left to find \n", my_word,"\n here are the letters you have left \n",get_available_letters(guessed)," ")
+        temp = input("input one letter:")
+        for i in guessed:
+            if i == temp[0]:
+              bol = False
+        if bol:
+          guessed += temp [0]
+          temp = my_word
+          my_word = ""
+          for j in secret_word:
+            Bol = True
+            for J in guessed:
+              if j == J:
+                my_word += j
+                Bol = False
+            if Bol:
+              my_word += "_ "
+          if temp == my_word:
+              guesses -= 1
+          if  is_word_guessed(secret_word,guessed):
+              print("\nYou Won the word was, ",secret_word)
+    print("\nYou Lost the word was, ",secret_word)
 
 
 # When you've completed your hangman function, scroll down to the bottom
@@ -128,7 +154,7 @@ def hangman(secret_word):
 
 
 
-def match_with_gaps(my_word, other_word):
+def match_with_gaps(my_word, other_word, letters_guessed):
     '''
     my_word: string with _ characters, current guess of secret word
     other_word: string, regular English word
@@ -139,6 +165,7 @@ def match_with_gaps(my_word, other_word):
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     pass
+
 
 
 
@@ -185,7 +212,37 @@ def hangman_with_hints(secret_word):
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    guesses = 6
+    my_word = ""
+    guessed = ""
+    temp=" "
+    bol = False
+    for i in secret_word:
+      my_word += "_ "
+    while guesses > 0:
+        bol = True
+        print("\n\n You have ",guesses," guesses left to find \n", my_word,"\n here are the letters you have left \n",get_available_letters(guessed)," ")
+        temp = input("input one letter:")
+        for i in guessed:
+            if i == temp[0]:
+              bol = False
+        if bol:
+          guessed += temp [0]
+          temp = my_word
+          my_word = ""
+          for j in secret_word:
+            Bol = True
+            for J in guessed:
+              if j == J:
+                my_word += j
+                Bol = False
+            if Bol:
+              my_word += "_ "
+          if temp == my_word:
+              guesses -= 1
+          if  is_word_guessed(secret_word,guessed):
+              print("\nYou Won the word was, ",secret_word)
+    print("\nYou Lost the word was, ",secret_word)
 
 
 
@@ -200,7 +257,7 @@ if __name__ == "__main__":
 
     # To test part 2, comment out the pass line above and
     # uncomment the following two lines.
-    
+    #hangman("test")
     secret_word = choose_word(wordlist)
     hangman(secret_word)
 
