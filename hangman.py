@@ -125,7 +125,7 @@ def hangman(secret_word):
           BOL = False
           return
         bol = True
-        print("\n\n You have ",guesses," guesses left to find \n", my_word," ",secret_word,"\n here are the letters you have left \n",get_available_letters(guessed)," ")
+        print("\n\n You have ",guesses," guesses left to find \n", my_word,"\n here are the letters you have left \n",get_available_letters(guessed)," ")
         temp = input("input one letter:")
         for i in guessed:
             if i == temp[0]:
