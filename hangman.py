@@ -72,7 +72,7 @@ def get_available_letters(letters_guessed):
       yet been guessed.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    abc = " a b c d e f g h i j k l m n o p g r s t u v w x y z "
+    abc = " a b c d e f g h i j k l m n o p q r s t u v w x y z "
     temp = abc
     for i in letters_guessed:
       for j in abc:
@@ -116,11 +116,16 @@ def hangman(secret_word):
     guessed = ""
     temp=" "
     bol = False
+    BOL = True
     for i in secret_word:
       my_word += "_ "
     while guesses > 0:
+        if  my_word.find("_") == -1:
+          print("\nYou Won the word was, ",secret_word)
+          BOL = False
+          return
         bol = True
-        print("\n\n You have ",guesses," guesses left to find \n", my_word,"\n here are the letters you have left \n",get_available_letters(guessed)," ")
+        print("\n\n You have ",guesses," guesses left to find \n", my_word," ",secret_word,"\n here are the letters you have left \n",get_available_letters(guessed)," ")
         temp = input("input one letter:")
         for i in guessed:
             if i == temp[0]:
@@ -139,9 +144,8 @@ def hangman(secret_word):
               my_word += "_ "
           if temp == my_word:
               guesses -= 1
-          if  is_word_guessed(secret_word,guessed):
-              print("\nYou Won the word was, ",secret_word)
-    print("\nYou Lost the word was, ",secret_word)
+    if BOL:
+      print("\nYou Lost the word was, ",secret_word)
 
 
 # When you've completed your hangman function, scroll down to the bottom
@@ -180,7 +184,26 @@ def show_possible_matches(my_word):
 
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    temp = ""
+    limit = 220
+    for i in wordlist:
+      cnt = 0
+      bol = True
+      if len(i) == len(my_word):
+        for j in my_word:
+          if (j == i[cnt] or j =="_") and bol:
+            bol = True
+          else:
+            bol = False
+          cnt += 1
+      else:
+        bol = False
+      if bol:
+        temp += i + " "
+        if len(temp) >= limit:
+          temp +="\n"
+          limit += 220
+    return temp
 
 
 
@@ -213,20 +236,28 @@ def hangman_with_hints(secret_word):
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     guesses = 6
+    turn = 1
     my_word = ""
     guessed = ""
     temp=" "
     bol = False
     for i in secret_word:
-      my_word += "_ "
+      my_word += "_"
     while guesses > 0:
         bol = True
-        print("\n\n You have ",guesses," guesses left to find \n", my_word,"\n here are the letters you have left \n",get_available_letters(guessed)," ")
+        print("\n\n You have ",guesses," guesses left to find \n", my_word,"\n here are the letters you have left \n",get_available_letters(guessed),"\n every 3 turns a hint will be given")
+        if turn%3 == 0:
+          yn = input("would you like to receive a poosible list of words. \n NOT RECOMENDED IF YOU HAVE LESS THAN A THIRD OF THE WORD FOUND Y/N")
+          if yn[0] == "y" or yn[0] == "Y":
+            print("")
+            print (show_possible_matches(my_word))
+            print("")
         temp = input("input one letter:")
         for i in guessed:
             if i == temp[0]:
               bol = False
         if bol:
+          turn += 1
           guessed += temp [0]
           temp = my_word
           my_word = ""
@@ -237,11 +268,12 @@ def hangman_with_hints(secret_word):
                 my_word += j
                 Bol = False
             if Bol:
-              my_word += "_ "
+              my_word += "_"
           if temp == my_word:
               guesses -= 1
-          if  is_word_guessed(secret_word,guessed):
+          if  my_word.find("_")==-1:
               print("\nYou Won the word was, ",secret_word)
+              return
     print("\nYou Lost the word was, ",secret_word)
 
 
@@ -259,7 +291,7 @@ if __name__ == "__main__":
     # uncomment the following two lines.
     #hangman("test")
     secret_word = choose_word(wordlist)
-    hangman(secret_word)
+    hangman_with_hints(secret_word)
 
 ###############
     
